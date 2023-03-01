@@ -1,0 +1,79 @@
+<template>
+  <Box>
+    <form class="box" onsubmit="return false">
+      <div class="header">
+        <slot name="header"></slot>
+      </div>
+      <div class="body">
+        <slot name="body"></slot>
+      </div>
+      <div class="footer">
+        <ButtonComponent
+          :label="cancelLabel"
+          type="button"
+          class="p-button-raised"
+          style="margin-right: 10px"
+          @click="closeDialog(null)"
+        />
+        <ButtonComponent
+          :label="okLabel"
+          type="submit"
+          class="p-button-raised"
+          @click="closeDialog()"
+          :disabled="!valid"
+        />
+      </div>
+    </form>
+  </Box>
+</template>
+  
+<script>
+import { defineComponent } from "vue";
+import Box from "./MessageBox.vue";
+import { closeDialog } from "vue3-promise-dialog";
+
+export default defineComponent({
+  components: { Box },
+  props: {
+    valid: {
+      type: Boolean,
+      default: true,
+    },
+    okLabel: {
+      type: String,
+      default: "OK",
+    },
+    cancelLabel: {
+      type: String,
+      default: "CANCEL",
+    },
+  },
+  setup() {
+    return {
+      closeDialog,
+    };
+  },
+});
+</script>
+  
+  <style scoped lang="scss">
+.box {
+  .header {
+    color: white;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 10px;
+    font-size: 20px;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}
+</style>
